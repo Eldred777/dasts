@@ -31,4 +31,3 @@ class Radiant implements DropChance {
     final double UNCOMMON = 20;
     final double RARE = 10;
 }
-

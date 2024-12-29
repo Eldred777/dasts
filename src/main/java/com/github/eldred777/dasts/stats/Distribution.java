@@ -7,7 +7,7 @@ public class Distribution<K, V> {
     // Models a discrete, finite distribution, or samples of a discrete distribution at certain coordinates.
     protected final HashMap<K, V> distribution;
 
-    
+
     public Distribution(HashMap<K, V> dist) {
         this.distribution = dist;
     }
