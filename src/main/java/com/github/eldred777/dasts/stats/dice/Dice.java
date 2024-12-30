@@ -1,14 +1,14 @@
 package com.github.eldred777.dasts.stats.dice;
 
 import com.github.eldred777.dasts.stats.Distribution;
-import com.github.eldred777.dasts.stats.StatsView;
+import com.github.eldred777.dasts.stats.Viewable;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
 
-public class Dice extends Distribution<Integer, Double> implements StatsView {
+public class Dice extends Distribution<Integer, Double> implements Viewable {
     // TODO: add to results, add probabilities
     Dice() {
         super();
