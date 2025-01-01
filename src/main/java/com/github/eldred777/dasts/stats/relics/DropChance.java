@@ -15,4 +15,19 @@ public enum DropChance {
         this.uncommon = u;
         this.rare = r;
     }
+
+    public double get(RewardRarity rarity) {
+        switch (rarity) {
+            case COMMON -> {
+                return this.common;
+            }
+            case UNCOMMON -> {
+                return this.uncommon;
+            }
+            case RARE -> {
+                return this.rare;
+            }
+        }
+        throw new RuntimeException("DropChance.get failed to match argument: " + rarity);
+    }
 }
