@@ -1,7 +1,7 @@
 package com.github.eldred777.dasts.stats.relics.run;
 
 import com.github.eldred777.dasts.stats.Viewable;
-import com.github.eldred777.dasts.stats.relics.DropChance;
+import com.github.eldred777.dasts.stats.relics.Refinement;
 import com.github.eldred777.dasts.stats.relics.RewardRarity;
 import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
