@@ -3,7 +3,6 @@ package com.github.eldred777.dasts.stats.relics;
 import com.github.eldred777.dasts.stats.Distribution;
 import com.github.eldred777.dasts.stats.Viewable;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -86,8 +85,7 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
             }
         });
 
-        TableColumn<Run, SimpleDoubleProperty> intact = new TableColumn<>("Intact");
-//        intact.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 0));
+        TableColumn<Run, Double> intact = new TableColumn<>("Intact");
         intact.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 0));
 
         TableColumn<Run, Double> exceptional = new TableColumn<>("Exceptional");

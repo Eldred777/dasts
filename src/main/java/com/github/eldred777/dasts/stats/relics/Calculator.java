@@ -40,6 +40,6 @@ public class Calculator {
 
     public void updateRun(Run run) {
         int n = run.getRunNum();
-        run.updateFromDoubles(computeProbabilities(n));
+        run.update(computeProbabilities(n));
     }
 }
