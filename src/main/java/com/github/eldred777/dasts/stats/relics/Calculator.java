@@ -22,7 +22,14 @@ public class Calculator {
 
     // TODO Geometric distribution
     private double computePdf(Refinement refinement, int runNumber) {
-        return runNumber * 0.5; // TODO implement, chosen a random number to make sure its working
+        double x = 0.;
+        switch (refinement) {
+            case INTACT -> x = 1;
+            case EXCEPTIONAL -> x = 2;
+            case FLAWLESS -> x = 3;
+            case RADIANT -> x = 4;
+        }
+        return runNumber * x; // TODO implement
     }
 
     public List<Double> computeProbabilities(int n) {

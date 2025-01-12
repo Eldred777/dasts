@@ -85,19 +85,24 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
             }
         });
 
-        TableColumn<Run, Double> intact = new TableColumn<>("Intact");
-        intact.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 0));
+        // Below are candidates for refactoring in terms of refinement enum.
+        TableColumn<Run, Double> intactCol = new TableColumn<>("Intact");
+        intactCol.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 0));
 
-        TableColumn<Run, Double> exceptional = new TableColumn<>("Exceptional");
-        // TODO
+        TableColumn<Run, Double> exceptionalCol = new TableColumn<>("Exceptional");
+        exceptionalCol.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 1));
 
-        TableColumn<Run, Double> flawless = new TableColumn<>("Flawless");
-        // TODO
+        TableColumn<Run, Double> flawlessCol = new TableColumn<>("Flawless");
+        flawlessCol.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 2));
 
-        TableColumn<Run, Double> radiant = new TableColumn<>("Radiant");
-        // TODO
+        TableColumn<Run, Double> radiantCol = new TableColumn<>("Radiant");
+        radiantCol.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 3));
 
-        runTable.getColumns().addAll(runNumber, intact, exceptional, flawless, radiant); // TODO check this
+        runTable.getColumns().add(runNumber);
+        runTable.getColumns().add(intactCol);
+        runTable.getColumns().add(exceptionalCol);
+        runTable.getColumns().add(flawlessCol);
+        runTable.getColumns().add(radiantCol);
         runTable.getSortOrder().add(runNumber);
         addRunToTable(1);
         runTable.sort();
