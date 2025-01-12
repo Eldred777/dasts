@@ -88,6 +88,7 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         // Below are candidates for refactoring in terms of refinement enum.
         TableColumn<Run, Double> intactCol = new TableColumn<>("Intact");
         intactCol.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 0));
+        // TODO: see if column accepts a formatter for the input; restrict to 2dp. Else put these as strings and add an intermediate observer that outputs a string.
 
         TableColumn<Run, Double> exceptionalCol = new TableColumn<>("Exceptional");
         exceptionalCol.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 1));

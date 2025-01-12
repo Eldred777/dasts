@@ -20,16 +20,22 @@ public class Calculator {
         this.numPeople = numPeople;
     }
 
-    // TODO Geometric distribution
+    /**
+     * Computes the probability with parameter refinement, internal parameter numPeople, evaluated at runNumber.
+     * <p>
+     * This is the geometric distribution under the number set {1,2,...} i.e. n-1 failures and the nth trial is a
+     * success.
+     *
+     * @return Probability as a percentage.
+     */
     private double computePdf(Refinement refinement, int runNumber) {
-        double x = 0.;
-        switch (refinement) {
-            case INTACT -> x = 1;
-            case EXCEPTIONAL -> x = 2;
-            case FLAWLESS -> x = 3;
-            case RADIANT -> x = 4;
+        double prob = refinement.get(rarity) / 100;
+        double probComplement = 1 - prob;
+        if (numPeople > 1) {
+            probComplement = Math.pow(probComplement, numPeople);
+            prob = 1 - probComplement;
         }
-        return runNumber * x; // TODO implement
+        return Math.pow(probComplement, runNumber - 1) * prob * 100;
     }
 
     public List<Double> computeProbabilities(int n) {
