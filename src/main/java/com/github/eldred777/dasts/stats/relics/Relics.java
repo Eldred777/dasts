@@ -12,6 +12,7 @@ import javafx.util.Callback;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 /**
  * View statistics for Warframe relics.
@@ -66,7 +67,11 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         TextField addRunField = new TextField();
         Button addRunButton = new Button("Add Run");
         addRunButton.setOnAction(e -> {
-            addRunCB(addRunField.getText());
+            OptionalInt n = addRunCB(addRunField.getText());
+            // If valid string parsed
+            if (n.isPresent()) {
+                addRunToTable(n.getAsInt());
+            }
         });
 
         // TODO remove run number
@@ -125,16 +130,17 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
      * @param string
      *         API unstable, do not take this to be correct yet!
      *
-     * @return int for run to be added to the table
+     * @return An OptionalInt, returning some integer to be added to the run table, or flagging an error with parsing by
+     * returning nothing (i.e. an empty optional).
      */
-    int addRunCB(String string) {
+    OptionalInt addRunCB(String string) {
         // Parse
         Alert alert = new Alert(Alert.AlertType.ERROR, "ADDING RUNS NOT IMPLEMENTED");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             // DO STUFF
         }
-        return 0; // TODO
+        return OptionalInt.empty(); // TODO
     }
 
     void addRunToTable(int n) {       // TODO check if it exists, if not then add new run
