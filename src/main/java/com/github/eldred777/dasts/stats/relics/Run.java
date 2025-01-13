@@ -38,22 +38,13 @@ public class Run {
         return runNumber.get();
     }
 
+
     public double get(Refinement refinement) {
-        return switch (refinement) {
-            case INTACT -> probabilities.get(0);
-            case EXCEPTIONAL -> probabilities.get(1);
-            case FLAWLESS -> probabilities.get(2);
-            case RADIANT -> probabilities.get(3);
-        };
+        return probabilities.get(refinement.index);
     }
 
     public void update(Refinement refinement, double d) {
-        switch (refinement) {
-            case INTACT -> probabilities.set(0, d);
-            case EXCEPTIONAL -> probabilities.set(1, d);
-            case FLAWLESS -> probabilities.set(2, d);
-            case RADIANT -> probabilities.set(3, d);
-        }
+        probabilities.set(refinement.index, d);
     }
 
     public void update(List<Double> probabilities) {

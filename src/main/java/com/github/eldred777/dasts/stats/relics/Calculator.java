@@ -8,6 +8,7 @@ public class Calculator {
     private RewardRarity rarity;
 
     public Calculator() {
+        // Default args
         numPeople = 1;
         rarity = RewardRarity.COMMON;
     }

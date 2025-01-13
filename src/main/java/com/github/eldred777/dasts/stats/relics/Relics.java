@@ -91,10 +91,10 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         });
 
         // Below are candidates for refactoring in terms of refinement enum.
-        var intactCol = generateProbabilityColumn("Intact", 0);
-        var exceptionalCol = generateProbabilityColumn("Exceptional", 1);
-        var flawlessCol = generateProbabilityColumn("Flawless", 2);
-        var radiantCol = generateProbabilityColumn("Radiant", 3);
+        var intactCol = generateRefinementColumn(Refinement.INTACT);
+        var exceptionalCol = generateRefinementColumn(Refinement.EXCEPTIONAL);
+        var flawlessCol = generateRefinementColumn(Refinement.FLAWLESS);
+        var radiantCol = generateRefinementColumn(Refinement.RADIANT);
 
         runTable.getColumns().add(runNumber);
         runTable.getColumns().add(intactCol);
@@ -110,9 +110,9 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         return mainNode;
     }
 
-    private TableColumn<Run, Double> generateProbabilityColumn(String name, int index) {
-        TableColumn<Run, Double> col = new TableColumn<>(name);
-        col.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, index));
+    private TableColumn<Run, Double> generateRefinementColumn(Refinement refinement) {
+        TableColumn<Run, Double> col = new TableColumn<>(refinement.name);
+        col.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, refinement.index));
         col.setCellFactory(tc -> new TableCell<>() {
             @Override
             protected void updateItem(Double value, boolean empty) {
