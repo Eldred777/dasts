@@ -91,18 +91,10 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         });
 
         // Below are candidates for refactoring in terms of refinement enum.
-        TableColumn<Run, Double> intactCol = new TableColumn<>("Intact");
-        intactCol.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 0));
-        // TODO: see if column accepts a formatter for the input; restrict to 2dp. Else put these as strings and add an intermediate observer that outputs a string.
-
-        TableColumn<Run, Double> exceptionalCol = new TableColumn<>("Exceptional");
-        exceptionalCol.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 1));
-
-        TableColumn<Run, Double> flawlessCol = new TableColumn<>("Flawless");
-        flawlessCol.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 2));
-
-        TableColumn<Run, Double> radiantCol = new TableColumn<>("Radiant");
-        radiantCol.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, 3));
+        var intactCol = generateProbabilityColumn("Intact", 0);
+        var exceptionalCol = generateProbabilityColumn("Exceptional", 1);
+        var flawlessCol = generateProbabilityColumn("Flawless", 2);
+        var radiantCol = generateProbabilityColumn("Radiant", 3);
 
         runTable.getColumns().add(runNumber);
         runTable.getColumns().add(intactCol);
@@ -116,6 +108,23 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         mainNode.getChildren().addAll(header, runTable);
 
         return mainNode;
+    }
+
+    private TableColumn<Run, Double> generateProbabilityColumn(String name, int index) {
+        TableColumn<Run, Double> col = new TableColumn<>(name);
+        col.setCellValueFactory(value -> Bindings.valueAt(value.getValue().probabilities, index));
+        col.setCellFactory(tc -> new TableCell<>() {
+            @Override
+            protected void updateItem(Double value, boolean empty) {
+                super.updateItem(value, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(String.format("%4.2f", value) + "%");
+                }
+            }
+        });
+        return col;
     }
 
     void updateAllRuns() {
