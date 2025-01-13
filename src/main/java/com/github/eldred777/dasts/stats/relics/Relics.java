@@ -4,15 +4,12 @@ import com.github.eldred777.dasts.stats.Distribution;
 import com.github.eldred777.dasts.stats.Viewable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalInt;
 
 /**
  * View statistics for Warframe relics.
@@ -64,23 +61,21 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
 
         // TODO: add space here
 
-        TextField addRunField = new TextField();
+        Spinner<Integer> addRunSpinner = new Spinner<>(1, Integer.MAX_VALUE, 1);
+        // TODO edit text field of the spinner
+        // TODO scroll wheel edits number
+
         Button addRunButton = new Button("Add Run");
         addRunButton.setOnAction(e -> {
-            OptionalInt n = addRunCB(addRunField.getText());
-            // If valid string parsed
-            if (n.isPresent()) {
-                addRunToTable(n.getAsInt());
-            }
+            addRunToTable(addRunSpinner.getValue());
         });
+        // TODO if enter clicked while editing spinner, run the addRunButton
 
-        // TODO remove run number
+        // TODO remove run number logic
         Button removeRunButton = new Button("Delete Selected Run");
-        removeRunButton.setOnAction(e -> {
-            // TODO use selected cell feature of TableView to remove item
-        });
+        removeRunButton.setOnAction(this::deleteRunCB);
 
-        header.getChildren().addAll(addRunField, addRunButton, removeRunButton);
+        header.getChildren().addAll(addRunSpinner, addRunButton, removeRunButton);
 
         // Set up table
         TableColumn<Run, Integer> runNumber = new TableColumn<>("Run Number");
@@ -133,28 +128,35 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         }
     }
 
-    /**
-     * Callback to add run.
-     *
-     * @param string
-     *         API unstable, do not take this to be correct yet!
-     *
-     * @return An OptionalInt, returning some integer to be added to the run table, or flagging an error with parsing by
-     * returning nothing (i.e. an empty optional).
-     */
-    OptionalInt addRunCB(String string) {
-        // Parse
-        Alert alert = new Alert(Alert.AlertType.ERROR, "ADDING RUNS NOT IMPLEMENTED");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            // DO STUFF
+    void addRunToTable(int n) {
+        // Verify input1
+        if (n > 0) {
+            // TODO check if it exists, if not then add new run
+            var items = runTable.getItems();
+            if (items.stream().anyMatch(run -> run.getRunNum().equals(n))) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "This run is already in the table.");
+                var result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    return;
+                }
+            }
+            runTable.getItems().add(calculator.computeRun(n));
+            runTable.sort();
+            return;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid range, please input a positive integer");
+            var result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                return;
+            }
         }
-        return OptionalInt.empty(); // TODO
     }
 
-    void addRunToTable(int n) {       // TODO check if it exists, if not then add new run
-        List<Double> probabilities = calculator.computeProbabilities(n);
-        runTable.getItems().add(calculator.computeRun(n));
-        runTable.sort();
+    void deleteRunCB(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Deleting runs is not implemented yet.");
+        var result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            return;
+        }
     }
 }
