@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
@@ -24,8 +25,6 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         runTable = new TableView<>();
         calculator = new Calculator();
     }
-    // TODO implement
-    // TODO multiple people
     // TODO dynamically add lines based off # of runs and desired probability
 
     public Node view() {
@@ -34,19 +33,16 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         // TODO centre the header
         HBox header = new HBox(); // header to modify settings etc
 
-        // TODO # people
         ComboBox<Integer> squadSizeDropDown = new ComboBox<>();
-        // TODO change internal value when combo box is edited
-        // TODO set default
         squadSizeDropDown.getItems().addAll(1, 2, 3, 4);
         squadSizeDropDown.setOnAction(event -> {
             calculator.setNumPeople(squadSizeDropDown.getValue());
             updateAllRuns();
         });
-        squadSizeDropDown.getSelectionModel().selectFirst();
-        header.getChildren().addAll(squadSizeDropDown);
+        squadSizeDropDown.getSelectionModel().selectFirst(); // set default
+        header.getChildren().add(squadSizeDropDown);
 
-        // TODO: add space here
+        // TODO: add horizontal space
 
 
         // ComboBox to set the desired reward rarity.
@@ -69,7 +65,11 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         addRunButton.setOnAction(e -> {
             addRunToTable(addRunSpinner.getValue());
         });
-        // TODO if enter clicked while editing spinner, run the addRunButton
+        addRunSpinner.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                addRunButton.fire();
+            }
+        });
 
         // TODO remove run number logic
         Button removeRunButton = new Button("Delete Selected Run");
@@ -85,7 +85,6 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
             }
         });
 
-        // Below are candidates for refactoring in terms of refinement enum.
         var intactCol = generateRefinementColumn(Refinement.INTACT);
         var exceptionalCol = generateRefinementColumn(Refinement.EXCEPTIONAL);
         var flawlessCol = generateRefinementColumn(Refinement.FLAWLESS);
@@ -97,7 +96,7 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         runTable.getColumns().add(flawlessCol);
         runTable.getColumns().add(radiantCol);
         runTable.getSortOrder().add(runNumber);
-        addRunToTable(1);
+        addRunToTable(1); // default
         runTable.sort();
 
         mainNode.getChildren().addAll(header, runTable);
