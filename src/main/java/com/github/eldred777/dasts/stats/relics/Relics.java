@@ -58,9 +58,6 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         // TODO: add space here
 
         Spinner<Integer> addRunSpinner = new Spinner<>(1, Integer.MAX_VALUE, 1);
-        // TODO edit text field of the spinner
-        // TODO scroll wheel edits number
-
         Button addRunButton = new Button("Add Run");
         addRunButton.setOnAction(e -> {
             addRunToTable(addRunSpinner.getValue());
@@ -68,6 +65,14 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
         addRunSpinner.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 addRunButton.fire();
+            }
+        });
+        addRunSpinner.setOnScroll(e -> {
+            var dy = e.getDeltaY();
+            if (dy > 0) {
+                addRunSpinner.increment();
+            } else if (dy < 0) {
+                addRunSpinner.decrement();
             }
         });
 
