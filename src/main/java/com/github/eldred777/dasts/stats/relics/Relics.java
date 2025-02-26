@@ -39,6 +39,17 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
             calculator.setNumPeople(squadSizeDropDown.getValue());
             updateAllRuns();
         });
+        squadSizeDropDown.setOnScroll(e -> {
+            var dy = e.getDeltaY();
+            var min = squadSizeDropDown.getItems().getFirst();
+            var max = squadSizeDropDown.getItems().getLast();
+            // Follow visual ordering - increment down, decrement up.
+            var v = squadSizeDropDown.getValue() + (dy > 0 ? -1 : 1);
+            // Clamp values
+            if (min <= v && v <= max) {
+                squadSizeDropDown.setValue(v);
+            }
+        });
         squadSizeDropDown.getSelectionModel().selectFirst(); // set default
         header.getChildren().add(squadSizeDropDown);
 
@@ -57,7 +68,7 @@ public class Relics extends Distribution<Integer, Double> implements Viewable {
 
         // TODO: add space here
 
-        Spinner<Integer> addRunSpinner = new Spinner<>(1, Integer.MAX_VALUE, 1);
+        Spinner<Integer> addRunSpinner = new Spinner<>(1, 50, 1);
         Button addRunButton = new Button("Add Run");
         addRunButton.setOnAction(e -> {
             addRunToTable(addRunSpinner.getValue());
